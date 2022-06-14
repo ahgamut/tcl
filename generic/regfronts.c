@@ -38,7 +38,7 @@
  */
 int
 regcomp(
-    regex_t *re,
+    tclregex_t *re,
     const char *str,
     int flags)
 {
@@ -60,10 +60,10 @@ regcomp(
  */
 int
 regexec(
-    regex_t *re,
+    tclregex_t *re,
     const char *str,
     size_t nmatch,
-    regmatch_t pmatch[],
+    tclregmatch_t pmatch[],
     int flags)
 {
     const char *start;

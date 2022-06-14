@@ -43,7 +43,7 @@
  */
 void
 regfree(
-    regex_t *re)
+    tclregex_t *re)
 {
     if (re == NULL) {
 	return;

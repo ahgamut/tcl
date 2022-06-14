@@ -165,6 +165,7 @@ INSTALL_DATA_DIR	= ${INSTALL} -d -m 755
 # just to do a normal build although it can be required to run make dist.
 # Do not use SHELL_ENV for NATIVE_TCLSH unless it is the tclsh being built.
 EXE_SUFFIX		= @EXEEXT@
+TCL_APE			= tclsh.com
 TCL_EXE			= tclsh${EXE_SUFFIX}
 TCLTEST_EXE		= tcltest${EXE_SUFFIX}
 NATIVE_TCLSH		= @TCLSH_PROG@
@@ -711,7 +712,7 @@ SRCS = $(GENERIC_SRCS) $(TOMMATH_SRCS) $(UNIX_SRCS) $(NOTIFY_SRCS) \
 
 all: binaries libraries doc packages
 
-binaries: ${LIB_FILE} ${TCL_EXE}
+binaries: ${LIB_FILE} ${TCL_APE}
 
 libraries:
 
@@ -740,6 +741,9 @@ tclLibObjs:
 # This targets actually build the objects needed for the lib in the above case
 objs: ${OBJS}
 
+${TCL_APE}: ${TCL_EXE}
+	objcopy -SO binary ${TCL_EXE} ${TCL_APE}
+
 ${TCL_EXE}: ${TCLSH_OBJS} ${TCL_LIB_FILE} ${TCL_STUB_LIB_FILE}
 	${CC} ${CFLAGS} ${LDFLAGS} ${TCLSH_OBJS} \
 		@TCL_BUILD_LIB_SPEC@ ${TCL_STUB_LIB_FILE} ${LIBS} @EXTRA_TCLSH_LIBS@ \
@@ -755,7 +759,7 @@ Makefile: $(UNIX_DIR)/Makefile.in $(DLTEST_DIR)/Makefile.in
 
 clean: clean-packages
 	rm -rf *.a *.o libtcl* core errs *~ \#* TAGS *.E a.out \
-		errors ${TCL_EXE} ${TCLTEST_EXE} lib.exp Tcl @DTRACE_HDR@ \
+		errors ${TCL_EXE} ${TCL_APE} ${TCLTEST_EXE} lib.exp Tcl @DTRACE_HDR@ \
 		*.zip *.vfs
 	(cd dltest ; $(MAKE) clean)
 

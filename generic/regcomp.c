@@ -38,7 +38,7 @@
 /* =====^!^===== begin forwards =====^!^===== */
 /* automatically gathered by fwd; do not hand-edit */
 /* === regcomp.c === */
-int compile(regex_t *, const chr *, size_t, int);
+int compile(tclregex_t *, const chr *, size_t, int);
 static void moresubs(struct vars *, int);
 static int freev(struct vars *, int);
 static void makesearch(struct vars *, struct nfa *);
@@ -66,8 +66,8 @@ static long nfatree(struct vars *, struct subre *, FILE *);
 static long nfanode(struct vars *, struct subre *, FILE *);
 static int newlacon(struct vars *, struct state *, struct state *, int);
 static void freelacons(struct subre *, int);
-static void rfree(regex_t *);
-static void dump(regex_t *, FILE *);
+static void rfree(tclregex_t *);
+static void dump(tclregex_t *, FILE *);
 static void dumpst(struct subre *, FILE *, int);
 static void stdump(struct subre *, FILE *, int);
 static const char *stid(struct subre *, char *, size_t);
@@ -196,7 +196,7 @@ static int casecmp(const chr *, const chr *, size_t);
 
 /* internal variables, bundled for easy passing around */
 struct vars {
-    regex_t *re;
+    tclregex_t *re;
     const chr *now;		/* scan pointer into string */
     const chr *stop;		/* end of string */
     const chr *savenow;		/* saved now and stop for "subroutine call" */
@@ -276,11 +276,11 @@ static const struct fns functions = {
  - compile - compile regular expression
  * Note: on failure, no resources remain allocated, so regfree()
  * need not be applied to re.
- ^ int compile(regex_t *, const chr *, size_t, int);
+ ^ int compile(tclregex_t *, const chr *, size_t, int);
  */
 int
 compile(
-    regex_t *re,
+    tclregex_t *re,
     const chr *string,
     size_t len,
     int flags)
@@ -2006,11 +2006,11 @@ freelacons(
 
 /*
  - rfree - free a whole RE (insides of regfree)
- ^ static void rfree(regex_t *);
+ ^ static void rfree(tclregex_t *);
  */
 static void
 rfree(
-    regex_t *re)
+    tclregex_t *re)
 {
     struct guts *g;
 
@@ -2040,11 +2040,11 @@ rfree(
 
 /*
  - dump - dump an RE in human-readable form
- ^ static void dump(regex_t *, FILE *);
+ ^ static void dump(tclregex_t *, FILE *);
  */
 static void
 dump(
-    regex_t *re,
+    tclregex_t *re,
     FILE *f)
 {
 #ifdef REG_DEBUG

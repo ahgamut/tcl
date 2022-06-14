@@ -17,7 +17,7 @@
 #include "regex.h"
 
 /*
- * The TclRegexp structure encapsulates a compiled regex_t, the flags that
+ * The TclRegexp structure encapsulates a compiled tclregex_t, the flags that
  * were used to compile it, and an array of pointers that are used to indicate
  * subexpressions after a call to Tcl_RegExpExec. Note that the string and
  * objPtr are mutually exclusive. These values are needed by Tcl_RegExpRange
@@ -26,12 +26,12 @@
 
 typedef struct TclRegexp {
     int flags;			/* Regexp compile flags. */
-    regex_t re;			/* Compiled re, includes number of
+    tclregex_t re;			/* Compiled re, includes number of
 				 * subexpressions. */
     const char *string;		/* Last string passed to Tcl_RegExpExec. */
     Tcl_Obj *objPtr;		/* Last object passed to Tcl_RegExpExecObj. */
     Tcl_Obj *globObjPtr;	/* Glob pattern rep of RE or NULL if none. */
-    regmatch_t *matches;	/* Array of indices into the Tcl_UniChar
+    tclregmatch_t *matches;	/* Array of indices into the Tcl_UniChar
 				 * representation of the last string matched
 				 * with this regexp to indicate the location
 				 * of subexpressions. */

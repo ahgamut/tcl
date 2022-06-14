@@ -34,6 +34,7 @@
 const char *
 Tcl_ErrnoId(void)
 {
+#if 0
     switch (errno) {
 #if defined(E2BIG) && (!defined(EOVERFLOW) || (E2BIG != EOVERFLOW))
     case E2BIG: return "E2BIG";
@@ -468,6 +469,7 @@ Tcl_ErrnoId(void)
     case EXFULL: return "EXFULL";
 #endif
     }
+#endif
     return "unknown error";
 }
 
@@ -496,6 +498,7 @@ const char *
 Tcl_ErrnoMsg(
      int err)			/* Error number (such as in errno variable). */
 {
+#if 0
     switch (err) {
 #if defined(E2BIG) && (!defined(EOVERFLOW) || (E2BIG != EOVERFLOW))
     case E2BIG: return "argument list too long";
@@ -937,6 +940,9 @@ Tcl_ErrnoMsg(
 	return strerror(err);
 #endif
     }
+#else
+	return "unknown POSIX error";
+#endif
 }
 
 /*
@@ -961,6 +967,7 @@ const char *
 Tcl_SignalId(
      int sig)			/* Number of signal. */
 {
+#if 0
     switch (sig) {
 #ifdef SIGABRT
     case SIGABRT: return "SIGABRT";
@@ -1071,6 +1078,7 @@ Tcl_SignalId(
     case SIGINFO: return "SIGINFO";
 #endif
     }
+#endif
     return "unknown signal";
 }
 
@@ -1095,6 +1103,7 @@ const char *
 Tcl_SignalMsg(
      int sig)			/* Number of signal. */
 {
+#if 0
     switch (sig) {
 #ifdef SIGABRT
     case SIGABRT: return "SIGABRT";
@@ -1205,6 +1214,7 @@ Tcl_SignalMsg(
     case SIGINFO: return "information request";
 #endif
     }
+#endif
     return "unknown signal";
 }
 

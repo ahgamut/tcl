@@ -98,11 +98,11 @@ struct smalldfa {
  */
 
 struct vars {
-    regex_t *re;
+    tclregex_t *re;
     struct guts *g;
     int eflags;			/* copies of arguments */
     size_t nmatch;
-    regmatch_t *pmatch;
+    tclregmatch_t *pmatch;
     rm_detail_t *details;
     chr *start;			/* start of string */
     chr *stop;			/* just past end of string */
@@ -125,12 +125,12 @@ struct vars {
 /* =====^!^===== begin forwards =====^!^===== */
 /* automatically gathered by fwd; do not hand-edit */
 /* === regexec.c === */
-int exec(regex_t *, const chr *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
+int exec(tclregex_t *, const chr *, size_t, rm_detail_t *, size_t, tclregmatch_t [], int);
 static struct dfa *getsubdfa(struct vars *, struct subre *);
 static int simpleFind(struct vars *const, struct cnfa *const, struct colormap *const);
 static int complicatedFind(struct vars *const, struct cnfa *const, struct colormap *const);
 static int complicatedFindLoop(struct vars *const, struct dfa *const, struct dfa *const, chr **const);
-static void zapallsubs(regmatch_t *const, const size_t);
+static void zapallsubs(tclregmatch_t *const, const size_t);
 static void zaptreesubs(struct vars *const, struct subre *const);
 static void subset(struct vars *const, struct subre *const, chr *const, chr *const);
 static int cdissect(struct vars *, struct subre *, chr *, chr *);
@@ -157,17 +157,17 @@ static struct sset *pickNextSS(struct vars *const, struct dfa *const, chr *const
 
 /*
  - exec - match regular expression
- ^ int exec(regex_t *, const chr *, size_t, rm_detail_t *,
- ^					size_t, regmatch_t [], int);
+ ^ int exec(tclregex_t *, const chr *, size_t, rm_detail_t *,
+ ^					size_t, tclregmatch_t [], int);
  */
 int
 exec(
-    regex_t *re,
+    tclregex_t *re,
     const chr *string,
     size_t len,
     rm_detail_t *details,
     size_t nmatch,
-    regmatch_t pmatch[],
+    tclregmatch_t pmatch[],
     int flags)
 {
     AllocVars(v);
@@ -175,7 +175,7 @@ exec(
     size_t n;
     size_t i;
 #define	LOCALMAT	20
-    regmatch_t mat[LOCALMAT];
+    tclregmatch_t mat[LOCALMAT];
 #define LOCALDFAS	40
     struct dfa *subdfas[LOCALDFAS];
 
@@ -220,8 +220,8 @@ exec(
 	if (v->g->nsub + 1 <= LOCALMAT) {
 	    v->pmatch = mat;
 	} else {
-	    v->pmatch = (regmatch_t *)
-		    MALLOC((v->g->nsub + 1) * sizeof(regmatch_t));
+	    v->pmatch = (tclregmatch_t *)
+		    MALLOC((v->g->nsub + 1) * sizeof(tclregmatch_t));
 	}
 	if (v->pmatch == NULL) {
 	    FreeVars(v);
@@ -268,7 +268,7 @@ exec(
     if (st == REG_OKAY && v->pmatch != pmatch && nmatch > 0) {
 	zapallsubs(pmatch, nmatch);
 	n = (nmatch < v->nmatch) ? nmatch : v->nmatch;
-	memcpy(VS(pmatch), VS(v->pmatch), n*sizeof(regmatch_t));
+	memcpy(VS(pmatch), VS(v->pmatch), n*sizeof(tclregmatch_t));
     }
 
     /*
@@ -540,11 +540,11 @@ complicatedFindLoop(
 
 /*
  - zapallsubs - initialize all subexpression matches to "no match"
- ^ static void zapallsubs(regmatch_t *, size_t);
+ ^ static void zapallsubs(tclregmatch_t *, size_t);
  */
 static void
 zapallsubs(
-    regmatch_t *const p,
+    tclregmatch_t *const p,
     const size_t n)
 {
     size_t i;

@@ -153,29 +153,29 @@ typedef struct {
     /* the rest is opaque pointers to hidden innards */
     char *re_guts;		/* `char *' is more portable than `void *' */
     char *re_fns;
-} regex_t;
+} tclregex_t;
 
 /* result reporting (may acquire more fields later) */
 typedef struct {
     regoff_t rm_so;		/* start of substring */
     regoff_t rm_eo;		/* end of substring */
-} regmatch_t;
+} tclregmatch_t;
 
 /* supplementary control and reporting */
 typedef struct {
-    regmatch_t rm_extend;	/* see REG_EXPECT */
+    tclregmatch_t rm_extend;	/* see REG_EXPECT */
 } rm_detail_t;
 
 /*
  * compilation
  ^ #ifndef __REG_NOCHAR
- ^ int re_comp(regex_t *, const char *, size_t, int);
+ ^ int re_comp(tclregex_t *, const char *, size_t, int);
  ^ #endif
  ^ #ifndef __REG_NOFRONT
- ^ int regcomp(regex_t *, const char *, int);
+ ^ int regcomp(tclregex_t *, const char *, int);
  ^ #endif
  ^ #ifdef __REG_WIDE_T
- ^ int __REG_WIDE_COMPILE(regex_t *, const __REG_WIDE_T *, size_t, int);
+ ^ int __REG_WIDE_COMPILE(tclregex_t *, const __REG_WIDE_T *, size_t, int);
  ^ #endif
  */
 #define	REG_BASIC	000000	/* BREs (convenience) */
@@ -200,15 +200,15 @@ typedef struct {
 /*
  * execution
  ^ #ifndef __REG_NOCHAR
- ^ int re_exec(regex_t *, const char *, size_t,
- ^				rm_detail_t *, size_t, regmatch_t [], int);
+ ^ int re_exec(tclregex_t *, const char *, size_t,
+ ^				rm_detail_t *, size_t, tclregmatch_t [], int);
  ^ #endif
  ^ #ifndef __REG_NOFRONT
- ^ int regexec(regex_t *, const char *, size_t, regmatch_t [], int);
+ ^ int regexec(tclregex_t *, const char *, size_t, tclregmatch_t [], int);
  ^ #endif
  ^ #ifdef __REG_WIDE_T
- ^ int __REG_WIDE_EXEC(regex_t *, const __REG_WIDE_T *, size_t,
- ^				rm_detail_t *, size_t, regmatch_t [], int);
+ ^ int __REG_WIDE_EXEC(tclregex_t *, const __REG_WIDE_T *, size_t,
+ ^				rm_detail_t *, size_t, tclregmatch_t [], int);
  ^ #endif
  */
 #define	REG_NOTBOL	0001	/* BOS is not BOL */
@@ -220,7 +220,7 @@ typedef struct {
 
 /*
  * misc generics (may be more functions here eventually)
- ^ void regfree(regex_t *);
+ ^ void regfree(tclregex_t *);
  */
 
 /*
@@ -265,24 +265,24 @@ typedef struct {
 /* automatically gathered by fwd; do not hand-edit */
 /* === regproto.h === */
 #ifndef __REG_NOCHAR
-int re_comp(regex_t *, const char *, size_t, int);
+int re_comp(tclregex_t *, const char *, size_t, int);
 #endif
 #ifndef __REG_NOFRONT
-int regcomp(regex_t *, const char *, int);
+int regcomp(tclregex_t *, const char *, int);
 #endif
 #ifdef __REG_WIDE_T
-MODULE_SCOPE int __REG_WIDE_COMPILE(regex_t *, const __REG_WIDE_T *, size_t, int);
+MODULE_SCOPE int __REG_WIDE_COMPILE(tclregex_t *, const __REG_WIDE_T *, size_t, int);
 #endif
 #ifndef __REG_NOCHAR
-int re_exec(regex_t *, const char *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
+int re_exec(tclregex_t *, const char *, size_t, rm_detail_t *, size_t, tclregmatch_t [], int);
 #endif
 #ifndef __REG_NOFRONT
-int regexec(regex_t *, const char *, size_t, regmatch_t [], int);
+int regexec(tclregex_t *, const char *, size_t, tclregmatch_t [], int);
 #endif
 #ifdef __REG_WIDE_T
-MODULE_SCOPE int __REG_WIDE_EXEC(regex_t *, const __REG_WIDE_T *, size_t, rm_detail_t *, size_t, regmatch_t [], int);
+MODULE_SCOPE int __REG_WIDE_EXEC(tclregex_t *, const __REG_WIDE_T *, size_t, rm_detail_t *, size_t, tclregmatch_t [], int);
 #endif
-MODULE_SCOPE void regfree(regex_t *);
+MODULE_SCOPE void regfree(tclregex_t *);
 MODULE_SCOPE size_t regerror(int, char *, size_t);
 /* automatically gathered by fwd; do not hand-edit */
 /* =====^!^===== end forwards =====^!^===== */

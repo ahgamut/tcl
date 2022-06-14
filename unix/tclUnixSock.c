@@ -697,7 +697,7 @@ TcpClose2Proc(
  *----------------------------------------------------------------------
  */
 
-#ifndef NEED_FAKE_RFC2553
+#if 0 && !NEED_FAKE_RFC2553
 #if defined (__clang__) || ((__GNUC__)  && ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ > 5))))
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wstrict-aliasing"
@@ -751,7 +751,7 @@ TcpHostPortList(
         if (addr.sa4.sin_addr.s_addr == INADDR_ANY) {
             flags |= NI_NUMERICHOST;
         }
-#ifndef NEED_FAKE_RFC2553
+#if 0 && !NEED_FAKE_RFC2553
     } else if (addr.sa.sa_family == AF_INET6) {
         if (IPv6AddressNeedsNumericRendering(addr.sa6.sin6_addr)) {
             flags |= NI_NUMERICHOST;

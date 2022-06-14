@@ -403,16 +403,16 @@ struct subre {
 };
 
 /*
- * table of function pointers for generic manipulation functions. A regex_t's
+ * table of function pointers for generic manipulation functions. A tclregex_t's
  * re_fns points to one of these.
  */
 
 struct fns {
-    void FUNCPTR(free, (regex_t *));
+    void FUNCPTR(free, (tclregex_t *));
 };
 
 /*
- * the insides of a regex_t, hidden behind a void *
+ * the insides of a tclregex_t, hidden behind a void *
  */
 
 struct guts {

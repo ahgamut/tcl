@@ -967,7 +967,7 @@ CompileRegexp(
      */
 
     regexpPtr->matches =
-	    (regmatch_t*)ckalloc(sizeof(regmatch_t) * (regexpPtr->re.re_nsub + 1));
+	    (tclregmatch_t*)ckalloc(sizeof(tclregmatch_t) * (regexpPtr->re.re_nsub + 1));
 
     /*
      * Initialize the refcount to one initially, since it is in the cache.

@@ -916,6 +916,7 @@ TtyGetOptionProc(
 
 
 static const struct {int baud; speed_t speed;} speeds[] = {
+#if 0
 #ifdef B0
     {0, B0},
 #endif
@@ -1036,6 +1037,7 @@ static const struct {int baud; speed_t speed;} speeds[] = {
 #ifdef B4000000
     {4000000,B4000000},
 #endif
+#endif
     {-1, 0}
 };
 
@@ -1140,12 +1142,28 @@ TtyGetAttributes(
 
     parity = 'n';
 #ifdef PAREXT
+#if 0
     switch ((int) (iostate.c_cflag & (PARENB | PARODD | PAREXT))) {
     case PARENB			  : parity = 'e'; break;
     case PARENB | PARODD	  : parity = 'o'; break;
     case PARENB |	   PAREXT : parity = 's'; break;
     case PARENB | PARODD | PAREXT : parity = 'm'; break;
     }
+#else
+    int paren_cmp = (int) (iostate.c_cflag & (PARENB | PARODD | PAREXT));
+    if (paren_cmp == PARENB) {
+        parity = 'e';
+    }
+    else if(paren_cmp == (PARENB | PARODD)) {
+        parity = 'o';
+    }
+    else if(paren_cmp == (PARENB | PAREXT )) {
+        parity = 's';
+    }
+    else if(paren_cmp == (PARENB | PARODD | PAREXT)) {
+        parity = 'm';
+    }
+#endif
 #else /* !PAREXT */
     switch ((int) (iostate.c_cflag & (PARENB | PARODD))) {
     case PARENB		 : parity = 'e'; break;
