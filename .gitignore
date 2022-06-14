@@ -1,3 +1,5 @@
+libcosmo/*
+!libcosmo/README.md
 *.a
 *.bundle
 *.dll

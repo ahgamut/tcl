@@ -1,0 +1,24 @@
+#! /bin/sh 
+COSMO_LIBDIR=$(realpath "../libcosmo")
+./configure \
+    --disable-shared --disable-load \
+    --disable-dtrace --enable-64bit \
+    --disable-rpath --disable-langinfo \
+    --disable-symbols --disable-threads \
+    CC="gcc" \
+    CFLAGS="-Wall -std=c99 -static \
+      -fno-pie -no-pie -fno-omit-frame-pointer \
+      -mno-red-zone -pg -mnop-mcount \
+      -nostdinc -nostdlib \
+      -I./header_stubs \
+      -include $COSMO_LIBDIR/cosmopolitan.h" \
+    LDFLAGS="-static -nostdlib -nostdinc -fno-pie \
+      -no-pie -mno-red-zone \
+      -include $COSMO_LIBDIR/cosmopolitan.h" \
+    LIBS="\
+      -Wl,--gc-sections -fuse-ld=bfd \
+      -Wl,-T,$COSMO_LIBDIR/ape.lds \
+      -include $COSMO_LIBDIR/cosmopolitan.h \
+      $COSMO_LIBDIR/crt.o \
+      $COSMO_LIBDIR/ape-no-modify-self.o \
+      $COSMO_LIBDIR/cosmopolitan.a"
